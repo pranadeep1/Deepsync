@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync - Todo List</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="logo">
+            <a href="/"><img src="../../../media/Logo.jpg" alt="DeepSync Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/Roadmaps/index.html">Roadmaps</a></li>
+                <li><a href="/Time-Management/pomodoro-timer/index.html">Pomodoro</a></li>
+                <li><a href="/todo/Todo-List/src/index.html" class="active">Todo List</a></li>
+                <li><a href="/focus-shield.html">Focus Shield</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
+            <label class="theme-toggle-switch">
+                <input type="checkbox" id="theme-toggle-checkbox" checked>
+                <span class="theme-toggle-slider"></span>
+            </label>
+            <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h1>Smart Task Management</h1>
+            <p>Organize your tasks efficiently with DeepSync's intuitive task manager</p>
+        </div>
+
+        <div class="todo-app">
+            <div class="todo-header">
+                <h2>My Tasks</h2>
+                <div class="todo-form">
+                    <div class="input-group">
+                        <input type="text" id="task-input" placeholder="Add a new task...">
+                        <select id="task-category" aria-label="Task category">
+                            <option value="" disabled selected>Category</option>
+                            <!-- Categories will be added dynamically -->
+                        </select>
+                    </div>
+                    <button id="add-task-btn" title="Add task"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="active">Active</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+                <div class="filter-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="tooltip">Drag and drop tasks to reorder them</span>
+                </div>
+            </div>
+            
+            <div class="todo-list" id="todo-list">
+                <!-- Tasks will be added here dynamically -->
+            </div>
+            
+            <div class="todo-summary">
+                <span id="tasks-left">0 tasks left</span>
+                <button id="clear-completed">Clear completed</button>
+            </div>
+        </div>
+        
+        <div class="quick-tips">
+            <h3><i class="fas fa-lightbulb"></i> Quick Tips</h3>
+            <ul>
+                <li><i class="fas fa-check"></i> Break down large tasks into smaller, manageable steps</li>
+                <li><i class="fas fa-check"></i> Use categories to organize different areas of your life</li>
+                <li><i class="fas fa-check"></i> Drag and drop to prioritize your most important tasks</li>
+                <li><i class="fas fa-check"></i> Clear completed tasks regularly to keep your list focused</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 DeepSync. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Space themed elements that will only show in dark mode -->
+    <div class="space-planet planet-1"></div>
+    <div class="space-planet planet-2"></div>
+    <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+    <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+    <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+
+    <script src="../../../theme.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

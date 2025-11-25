@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync - Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+    <style>
+        /* Register specific styles */
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .form-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 500px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        }
+        
+        .form-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            flex: 1;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            background-color: rgba(30, 30, 40, 1);
+        }
+        
+        .form-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .form-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s;
+        }
+        
+        .form-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+        }
+        
+        .form-button:hover:before {
+            left: 100%;
+        }
+        
+        .form-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        
+        .form-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .form-divider span {
+            padding: 0 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-color: var(--surface-color);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-button.google:hover {
+            color: #DB4437;
+            border-color: #DB4437;
+        }
+        
+        .social-button.facebook:hover {
+            color: #4267B2;
+            border-color: #4267B2;
+        }
+        
+        .social-button.twitter:hover {
+            color: #1DA1F2;
+            border-color: #1DA1F2;
+        }
+        
+        /* Password validation styles */
+        .password-validation {
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .validation-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+        
+        .validation-icon {
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .valid {
+            color: var(--accent-color);
+        }
+        
+        .invalid {
+            color: var(--danger-color);
+        }
+        
+        /* Password visibility toggle */
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .toggle-password:hover {
+            color: var(--text-color);
+        }
+
+        /* Light theme adjustments */
+        body.light-theme .form-title {
+            color: var(--text-color);
+            text-shadow: none;
+        }
+        
+        body.light-theme .input-field:focus {
+            background-color: var(--surface-color);
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="logo">
+            <a href="/"><img src="./media/Logo.jpg" alt="DeepSync Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/login.html">Login</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
+            <label class="theme-toggle-switch">
+                <input type="checkbox" id="theme-toggle-checkbox" checked>
+                <span class="theme-toggle-slider"></span>
+            </label>
+            <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h1 class="form-title">Create Account</h1>
+            <p class="form-subtitle">Join DeepSync to boost your productivity</p>
+            
+            <form action="/register" method="post" id="register-form">
+                <div id="form-error" class="error-message" style="display: none; color: #dc3545; margin-bottom: 1rem; text-align: center;"></div>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="first_name">First Name</label>
+                        <input type="text" id="first_name" name="first_name" class="input-field" placeholder="Enter first name" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" class="input-field" placeholder="Enter last name" required>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" class="input-field" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="input-field" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" class="input-field" placeholder="Create a password" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-validation">
+                        <div class="validation-item">
+                            <span class="validation-icon" id="length-icon"><i class="fas fa-times"></i></span>
+                            <span>At least 8 characters long</span>
+                        </div>
+                        <div class="validation-item">
+                            <span class="validation-icon" id="uppercase-icon"><i class="fas fa-times"></i></span>
+                            <span>Contains uppercase letter</span>
+                        </div>
+                        <div class="validation-item">
+                            <span class="validation-icon" id="number-icon"><i class="fas fa-times"></i></span>
+                            <span>Contains number</span>
+                        </div>
+                        <div class="validation-item">
+                            <span class="validation-icon" id="special-icon"><i class="fas fa-times"></i></span>
+                            <span>Contains special character</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="password-field">
+                        <input type="password" id="confirm_password" name="confirm_password" class="input-field" placeholder="Confirm your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirm_password')">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-validation">
+                        <div class="validation-item">
+                            <span class="validation-icon" id="match-icon"><i class="fas fa-times"></i></span>
+                            <span>Passwords match</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="form-button">Create Account</button>
+            </form>
+            
+            <div class="form-divider">
+                <span>OR</span>
+            </div>
+            
+            <div class="social-login">
+                <button class="social-button google">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="social-button facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="social-button twitter">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--text-secondary);">
+                Already have an account? <a href="/login.html" class="form-link" style="display: inline; margin: 0;">Sign in</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 DeepSync. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Password validation
+        const passwordField = document.getElementById('password');
+        const confirmPasswordField = document.getElementById('confirm_password');
+        const lengthIcon = document.getElementById('length-icon');
+        const uppercaseIcon = document.getElementById('uppercase-icon');
+        const numberIcon = document.getElementById('number-icon');
+        const specialIcon = document.getElementById('special-icon');
+        const matchIcon = document.getElementById('match-icon');
+        
+        function validatePassword() {
+            const password = passwordField.value;
+            const confirmPassword = confirmPasswordField.value;
+            
+            // Validate length
+            if (password.length >= 8) {
+                lengthIcon.innerHTML = '<i class="fas fa-check"></i>';
+                lengthIcon.classList.add('valid');
+                lengthIcon.classList.remove('invalid');
+            } else {
+                lengthIcon.innerHTML = '<i class="fas fa-times"></i>';
+                lengthIcon.classList.add('invalid');
+                lengthIcon.classList.remove('valid');
+            }
+            
+            // Validate uppercase
+            if (/[A-Z]/.test(password)) {
+                uppercaseIcon.innerHTML = '<i class="fas fa-check"></i>';
+                uppercaseIcon.classList.add('valid');
+                uppercaseIcon.classList.remove('invalid');
+            } else {
+                uppercaseIcon.innerHTML = '<i class="fas fa-times"></i>';
+                uppercaseIcon.classList.add('invalid');
+                uppercaseIcon.classList.remove('valid');
+            }
+            
+            // Validate number
+            if (/[0-9]/.test(password)) {
+                numberIcon.innerHTML = '<i class="fas fa-check"></i>';
+                numberIcon.classList.add('valid');
+                numberIcon.classList.remove('invalid');
+            } else {
+                numberIcon.innerHTML = '<i class="fas fa-times"></i>';
+                numberIcon.classList.add('invalid');
+                numberIcon.classList.remove('valid');
+            }
+            
+            // Validate special character
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                specialIcon.innerHTML = '<i class="fas fa-check"></i>';
+                specialIcon.classList.add('valid');
+                specialIcon.classList.remove('invalid');
+            } else {
+                specialIcon.innerHTML = '<i class="fas fa-times"></i>';
+                specialIcon.classList.add('invalid');
+                specialIcon.classList.remove('valid');
+            }
+            
+            // Validate passwords match
+            if (password && confirmPassword && password === confirmPassword) {
+                matchIcon.innerHTML = '<i class="fas fa-check"></i>';
+                matchIcon.classList.add('valid');
+                matchIcon.classList.remove('invalid');
+            } else {
+                matchIcon.innerHTML = '<i class="fas fa-times"></i>';
+                matchIcon.classList.add('invalid');
+                matchIcon.classList.remove('valid');
+            }
+        }
+        
+        passwordField.addEventListener('input', validatePassword);
+        confirmPasswordField.addEventListener('input', validatePassword);
+        
+        // Toggle password visibility
+        function togglePasswordVisibility(fieldId) {
+            const field = document.getElementById(fieldId);
+            const toggleBtn = field.nextElementSibling.querySelector('i');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                toggleBtn.classList.remove('fa-eye');
+                toggleBtn.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                toggleBtn.classList.remove('fa-eye-slash');
+                toggleBtn.classList.add('fa-eye');
+            }
+        }
+        
+        // Form submission
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            const password = passwordField.value;
+            const isValidLength = password.length >= 8;
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            const passwordsMatch = password === confirmPasswordField.value;
+            
+            const errorMessage = document.getElementById('form-error');
+            
+            if (!(isValidLength && hasUppercase && hasNumber && hasSpecial && passwordsMatch)) {
+                e.preventDefault();
+                errorMessage.textContent = 'Please ensure your password meets all requirements and matches the confirmation password.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            errorMessage.style.display = 'none';
+        });
+    </script>
+
+    <!-- Space themed elements that will only show in dark mode -->
+    <div class="space-planet planet-1"></div>
+    <div class="space-planet planet-2"></div>
+    <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+    <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+    <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+    
+    <script src="theme.js"></script>
+</body>
+</html> 

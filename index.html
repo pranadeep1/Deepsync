@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.css">
+    <style>
+        /* Custom styles for landing page */
+        #main {
+            position: relative;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        /* Full page video section */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
+        }
+
+        .video-controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 5;
+        }
+
+        .video-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-btn.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        .hero-nav {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            width: 100%;
+        }
+
+        .hero-logo {
+            height: 50px;
+            mix-blend-mode: lighten;
+        }
+
+        .hero-nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 10vh;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-hero {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-hero-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+        }
+
+        .btn-hero-primary:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.6);
+        }
+
+        .btn-hero-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-hero-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Light theme specific styles */
+        body.light-theme .hero-overlay,
+        body.light-theme .feature-overlay,
+        body.light-theme .cta-overlay {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Fix for light theme navbar */
+        body.light-theme .hero-nav {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+        }
+        
+        body.light-theme .hero-logo {
+            mix-blend-mode: normal;
+        }
+        
+        body.light-theme .hero-title {
+            color: #111;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        body.light-theme .hero-subtitle {
+            color: #333;
+        }
+
+        body.light-theme .btn-hero-secondary {
+            color: #333;
+            border-color: #333;
+        }
+        
+        body.light-theme .feature-section,
+        body.light-theme .cta-section {
+            background-color: #f8f9fa;
+        }
+        
+        body.light-theme .section-title,
+        body.light-theme .cta-title {
+            color: #212529;
+        }
+        
+        body.light-theme .section-subtitle,
+        body.light-theme .cta-subtitle {
+            color: #6c757d;
+        }
+
+        /* Feature section */
+        .feature-section {
+            background-color: #000000;
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .feature-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            opacity: 0.3;
+        }
+        
+        .feature-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 3;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 3;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 3;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Call to action section */
+        .cta-section {
+            background-color: #000000;
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .cta-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .cta-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+            z-index: 3;
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .cta-section .btn-hero {
+            position: relative;
+            z-index: 3;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--card-bg);
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 4;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .footer-social a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .cta-title {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-nav {
+                padding: 1.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .hero-logo {
+                height: 40px;
+            }
+            
+            .hero-nav-right {
+                margin-top: 0.5rem;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            
+            .hero-content {
+                padding: 0 1.5rem;
+                margin-top: 5vh;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .btn-hero {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .feature-section, .cta-section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .cta-title {
+                font-size: 2.5rem;
+            }
+            
+            .feature-grid {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-nav {
+                padding: 1rem;
+            }
+            
+            .hero-logo {
+                height: 35px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .feature-section, .cta-section {
+                padding: 3rem 1rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <div id="main">
+        <!-- Hero Section with Full-Page Video -->
+        <section class="hero-section">
+            <div class="video-container">
+                <video class="hero-video active" id="landing-video" src="media/video2.mp4" autoplay loop muted playsinline></video>
+                    </div>
+            <div class="hero-overlay"></div>
+            
+            <nav class="hero-nav">
+                <img class="hero-logo" src="./media/Logo.jpg" alt="DeepSync Logo">
+                <div class="hero-nav-right">
+                    <button id="dashboard-btn" class="btn-hero btn-hero-secondary" onclick="window.location.href='/dashboard'">
+                        <i class="fa-solid fa-user"></i> Dashboard
+                    </button>
+                    <button id="login-btn" class="btn-hero btn-hero-primary" onclick="window.location.href='/login'">
+                        <i class="fa-solid fa-sign-in-alt"></i> Login
+                    </button>
+                </div>
+            </nav>
+            
+            <div class="hero-content">
+                <h1 class="hero-title">DeepSync<br>Focus. Sync. Achieve.</h1>
+                <p class="hero-subtitle">Modern life is distracting, but deep focus can be simple. Let DeepSync help you work smarter, not harder.</p>
+                <div class="hero-buttons">
+                    <button class="btn-hero btn-hero-primary" onclick="window.location.href='/register'">Get Started</button>
+                    <button class="btn-hero btn-hero-secondary" onclick="window.location.href='/Roadmaps/index.html'">Explore Features</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="feature-section">
+            <div class="feature-video-container">
+                <video class="feature-video" src="media/test.mp4" autoplay loop muted playsinline></video>
+                <div class="feature-overlay"></div>
+        </div> 
+            <h2 class="section-title">Why Choose DeepSync?</h2>
+            <p class="section-subtitle">In today's fast-paced world, distractions are everywhere. DeepSync is your personalized productivity companion, designed to help you achieve a state of deep work and stay focused on what truly matters.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-tasks feature-icon"></i>
+                    <h3 class="feature-title">Smart Task Management</h3>
+                    <p class="feature-text">Organize your tasks efficiently with intuitive planners and progress trackers. Break down complex goals into smaller, achievable milestones.</p>
+    </div>
+
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3 class="feature-title">FocusShield</h3>
+                    <p class="feature-text">Block distracting websites and apps during your work sessions. Create custom blocking profiles for different activities.</p>
+    </div>
+
+                <div class="feature-card">
+                    <i class="fas fa-map-signs feature-icon"></i>
+                    <h3 class="feature-title">Learning Roadmaps</h3>
+                    <p class="feature-text">Follow expert-designed learning paths or create your own. Track your progress and never lose momentum on your learning journey.</p>
+        </div>
+    </div>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <div class="cta-video-container">
+                <video class="cta-video" src="media/test.mp4" autoplay loop muted playsinline></video>
+                <div class="cta-overlay"></div>
+            </div>
+            <h2 class="cta-title">Ready to boost your productivity?</h2>
+            <p class="cta-subtitle">Join thousands of users who have transformed their work habits with DeepSync.</p>
+            <button class="btn-hero btn-hero-primary" onclick="window.location.href='/register'">Get Started for Free</button>
+        </section>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>DeepSync</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">Your personal productivity companion for achieving deep focus and meaningful work.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Features</h3>
+                    <ul class="footer-links">
+                        <li><a href="/todo/Todo-List/src/index.html">Task Management</a></li>
+                        <li><a href="/focus-shield.html">Focus Shield</a></li>
+                        <li><a href="/Roadmaps/index.html">Learning Roadmaps</a></li>
+                        <li><a href="/Time-Management/pomodoro-timer/index.html">Pomodoro Timer</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Guides</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                </div>
+                
+            <div class="footer-bottom">
+                <p>&copy; 2025 DeepSync. All rights reserved.</p>
+        </div>
+        </footer>
+    </div>
+
+    <!-- Space themed elements that will only show in dark mode -->
+    <div class="space-planet planet-1"></div>
+    <div class="space-planet planet-2"></div>
+    <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+    <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+    <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+
+    <!------------------script---------------------->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@3.5.4/dist/locomotive-scroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/gsap.min.js" integrity="sha512-qF6akR/fsZAB4Co1QDDnUXWnaQseLGXoniuSuSlPQK6+aWhlMZcHzkasCSlnWoe+TJuudlka1/IQ01Dnhgq95g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.1/ScrollTrigger.min.js" integrity="sha512-IHDCHrefnBT3vOCsvdkMvJF/MCPz/nBauQLzJkupa4Gn4tYg5a6VGyzIrjo6QAUy3We5HFOZUlkUpP0dkgE60A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="theme.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Force dark theme for landing page regardless of saved settings
+            document.body.classList.remove('light-theme');
+            document.body.classList.add('dark-theme');
+            
+            // Disconnect any theme toggle mutations to prevent theme changes
+            const forceDarkTheme = function() {
+                if (!document.body.classList.contains('dark-theme')) {
+                    document.body.classList.remove('light-theme');
+                    document.body.classList.add('dark-theme');
+                }
+            };
+            
+            // Create a MutationObserver to ensure dark theme stays applied
+            const observer = new MutationObserver(forceDarkTheme);
+            observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+            
+            // Improve mobile responsiveness
+            function adjustForMobile() {
+                const heroNav = document.querySelector('.hero-nav');
+                const heroNavRight = document.querySelector('.hero-nav-right');
+                
+                if (window.innerWidth <= 768) {
+                    if (heroNav && heroNavRight && !heroNavRight.classList.contains('mobile-adjusted')) {
+                        heroNavRight.classList.add('mobile-adjusted');
+                    }
+                } else {
+                    if (heroNavRight && heroNavRight.classList.contains('mobile-adjusted')) {
+                        heroNavRight.classList.remove('mobile-adjusted');
+                    }
+                }
+            }
+            
+            // Add video pause/play based on visibility
+            function handleVideoVisibility() {
+                const videos = document.querySelectorAll('video');
+                
+                videos.forEach(video => {
+                    // Check if video is in viewport
+                    const rect = video.getBoundingClientRect();
+                    const isVisible = (
+                        rect.top >= -rect.height && 
+                        rect.bottom <= window.innerHeight + rect.height
+                    );
+                    
+                    // Play if visible, pause if not
+                    if (isVisible) {
+                        if (video.paused) video.play();
+                    } else {
+                        if (!video.paused) video.pause();
+                    }
+                });
+            }
+            
+            // Run on load, resize and scroll
+            adjustForMobile();
+            handleVideoVisibility();
+            window.addEventListener('resize', adjustForMobile);
+            window.addEventListener('scroll', handleVideoVisibility);
+            
+            // Apply blur effect on feature cards for glass effect
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach(card => {
+                card.style.backgroundColor = 'rgba(10, 10, 10, 0.7)';
+            });
+        });
+    </script>
+</body>
+</html>

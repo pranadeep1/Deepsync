@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSync - Learning Roadmaps</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+</head>
+<body class="dark-theme">
+  <header>
+    <div class="logo">
+      <a href="/"><img src="../media/Logo.jpg" alt="DeepSync Logo"></a>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/Roadmaps/index.html" class="active">Roadmaps</a></li>
+        <li><a href="/Time-Management/pomodoro-timer/index.html">Pomodoro</a></li>
+        <li><a href="/todo/Todo-List/src/index.html">Todo List</a></li>
+        <li><a href="/focus-shield.html">Focus Shield</a></li>
+      </ul>
+    </nav>
+    <div class="theme-toggle">
+        <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
+        <label class="theme-toggle-switch">
+            <input type="checkbox" id="theme-toggle-checkbox" checked>
+            <span class="theme-toggle-slider"></span>
+        </label>
+        <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Developer Roadmaps</h1>
+      <p>Explore guided learning paths for your career development</p>
+      <button id="create-roadmap-btn" class="create-roadmap-btn">
+        <i class="fas fa-plus-circle"></i> Create Custom Roadmap
+      </button>
+    </div>
+
+    <!-- Category Selector -->
+    <div class="category-selector">
+      <button class="category-btn active" onclick="showCategory('role')">
+        <i class="fas fa-user-tie"></i> Role-based
+      </button>
+      <button class="category-btn" onclick="showCategory('skill')">
+        <i class="fas fa-tools"></i> Skill-based
+      </button>
+      <button class="category-btn" onclick="showCategory('custom')">
+        <i class="fas fa-star"></i> My Custom
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="roadmap-search" placeholder="Search roadmaps...">
+      </div>
+    </div>
+
+    <!-- Roadmap Grid -->
+    <div class="roadmap-container" id="roadmap-container"></div>
+
+    <!-- Detailed Roadmap Section -->
+    <div class="details-container" id="details-container">
+      <div class="details-header">
+        <h2 id="details-title">Select a card to see its detailed roadmap</h2>
+        <div class="details-actions">
+          <button id="save-progress-btn" class="details-btn">
+            <i class="fas fa-save"></i> Save Progress
+          </button>
+          <button id="share-roadmap-btn" class="details-btn">
+            <i class="fas fa-share-alt"></i> Share
+          </button>
+          <button id="print-roadmap-btn" class="details-btn">
+            <i class="fas fa-print"></i> Print
+          </button>
+        </div>
+      </div>
+      <div id="details-content" class="details-content"></div>
+    </div>
+  </main>
+
+  <!-- Create Custom Roadmap Modal -->
+  <div id="custom-roadmap-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Create Custom Roadmap</h2>
+      
+      <form id="custom-roadmap-form">
+        <div class="form-group">
+          <label for="roadmap-title">Title</label>
+          <input type="text" id="roadmap-title" placeholder="e.g., My Machine Learning Path" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="roadmap-description">Description</label>
+          <textarea id="roadmap-description" placeholder="Brief description of this roadmap" required></textarea>
+        </div>
+        
+        <div class="form-group form-row">
+          <div class="form-col">
+            <label for="roadmap-difficulty">Difficulty</label>
+            <select id="roadmap-difficulty" required>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+          </div>
+          <div class="form-col">
+            <label for="roadmap-time">Time Estimate</label>
+            <input type="text" id="roadmap-time" placeholder="e.g., 3 months" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="roadmap-icon">Icon</label>
+          <div class="icon-selector">
+            <button type="button" class="icon-option selected" data-icon="rocket"><i class="fas fa-rocket"></i></button>
+            <button type="button" class="icon-option" data-icon="brain"><i class="fas fa-brain"></i></button>
+            <button type="button" class="icon-option" data-icon="laptop-code"><i class="fas fa-laptop-code"></i></button>
+            <button type="button" class="icon-option" data-icon="project-diagram"><i class="fas fa-project-diagram"></i></button>
+            <button type="button" class="icon-option" data-icon="cogs"><i class="fas fa-cogs"></i></button>
+            <button type="button" class="icon-option" data-icon="lightbulb"><i class="fas fa-lightbulb"></i></button>
+          </div>
+          <input type="hidden" id="roadmap-icon" value="rocket">
+        </div>
+        
+        <div class="form-group">
+          <label for="roadmap-color">Color Theme</label>
+          <div class="color-selector">
+            <button type="button" class="color-option selected" data-color="blue" style="background: linear-gradient(45deg, #3498db, #2980b9);"></button>
+            <button type="button" class="color-option" data-color="purple" style="background: linear-gradient(45deg, #9b59b6, #8e44ad);"></button>
+            <button type="button" class="color-option" data-color="green" style="background: linear-gradient(45deg, #2ecc71, #27ae60);"></button>
+            <button type="button" class="color-option" data-color="orange" style="background: linear-gradient(45deg, #e67e22, #d35400);"></button>
+            <button type="button" class="color-option" data-color="red" style="background: linear-gradient(45deg, #e74c3c, #c0392b);"></button>
+            <button type="button" class="color-option" data-color="teal" style="background: linear-gradient(45deg, #1abc9c, #16a085);"></button>
+          </div>
+          <input type="hidden" id="roadmap-color" value="blue">
+        </div>
+        
+        <div class="form-group roadmap-steps">
+          <label>Roadmap Steps</label>
+          <div id="steps-container">
+            <div class="step-item">
+              <input type="text" class="step-title" placeholder="Step 1: Title" required>
+              <textarea class="step-description" placeholder="Description and resources for this step"></textarea>
+              <div class="resources-section">
+                <h4><i class="fas fa-link"></i> Resources <button type="button" class="add-resource-btn"><i class="fas fa-plus-circle"></i></button></h4>
+                <div class="resource-list-container">
+                  <!-- Resources will be added here dynamically -->
+                </div>
+              </div>
+              <button type="button" class="remove-step"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <button type="button" id="add-step-btn" class="secondary-btn">
+            <i class="fas fa-plus"></i> Add Another Step
+          </button>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" id="cancel-roadmap-btn" class="cancel-btn">Cancel</button>
+          <button type="button" id="preview-roadmap-btn" class="preview-btn">Preview</button>
+          <button type="submit" id="save-roadmap-btn" class="primary-btn">Create Roadmap</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div id="preview-modal" class="modal">
+    <div class="modal-content preview-modal-content">
+      <span class="close-modal" id="close-preview">&times;</span>
+      <h2>Roadmap Preview</h2>
+      <div class="preview-container">
+        <div class="preview-card">
+          <div class="card-header preview-header">
+            <div class="card-icon preview-icon">
+              <i class="fas fa-rocket"></i>
+            </div>
+            <h3 class="card-title preview-title">Your Roadmap Title</h3>
+          </div>
+          <div class="card-content">
+            <p class="card-description preview-description">Your roadmap description will appear here.</p>
+            <div class="card-meta">
+              <div class="card-difficulty preview-difficulty">
+                <i class="fas fa-signal"></i>
+                <span>Beginner</span>
+              </div>
+              <div class="card-time preview-time">
+                <i class="fas fa-clock"></i>
+                <span>Time estimate</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-steps">
+          <h3>Roadmap Steps</h3>
+          <div id="preview-steps-container">
+            <!-- Steps will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+      <div class="preview-actions">
+        <button type="button" id="back-to-edit-btn" class="secondary-btn">Back to Edit</button>
+        <button type="button" id="preview-create-btn" class="primary-btn">Create Roadmap</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 DeepSync. All rights reserved.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Space themed elements that will only show in dark mode -->
+  <div class="space-planet planet-1"></div>
+  <div class="space-planet planet-2"></div>
+  <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+  <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+  <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+
+  <script src="../theme.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>

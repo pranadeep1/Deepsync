@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+    <style>
+        /* Dashboard specific styles */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        .welcome-section {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(135deg, #5a52e0 0%, #6c63ff 100%);
+            border: 1px solid var(--border-color);
+            z-index: 1;
+        }
+        
+        body.light-theme .welcome-section {
+            background-image: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('media/test.mp4') center/cover no-repeat;
+            opacity: 0.05;
+            z-index: -1;
+            filter: grayscale(0.5);
+        }
+        
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 15px rgba(108, 99, 255, 0.5);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        body.light-theme .welcome-section h1 {
+            text-shadow: none;
+            color: var(--primary-color);
+        }
+        
+        .welcome-section p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            position: relative;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        body.light-theme .welcome-section p {
+            color: var(--text-secondary);
+        }
+        
+        /* Status cards */
+        .status-section {
+            margin: 2.5rem 0;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .status-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        body.light-theme .status-card {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .status-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        body.light-theme .status-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+        }
+        
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1.5rem;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .status-card:nth-child(1) .status-icon {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        .status-card:nth-child(2) .status-icon {
+            background: linear-gradient(135deg, #FF5E5B 0%, #FF414D 100%);
+        }
+        
+        .status-card:nth-child(3) .status-icon {
+            background: linear-gradient(135deg, #00C896 0%, #00A376 100%);
+        }
+        
+        .status-card:nth-child(4) .status-icon {
+            background: linear-gradient(135deg, #FFB344 0%, #FFA114 100%);
+        }
+        
+        .status-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-color);
+            margin-bottom: 0.3rem;
+        }
+        
+        .status-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Features section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-title {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 24px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+        
+        .view-all {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .view-all:after {
+            content: "\f054";
+            font-family: "Font Awesome 5 Free"; 
+            font-weight: 900;
+            margin-left: 5px;
+            font-size: 0.7rem;
+        }
+        
+        .view-all:hover {
+            color: var(--primary-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body.light-theme .feature-card {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        body.light-theme .feature-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+        }
+        
+        .feature-img {
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            z-index: 0;
+        }
+        
+        .feature-img i {
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card:nth-child(2) .feature-img::before {
+            background: linear-gradient(135deg, #FF5E5B 0%, #FF414D 100%);
+        }
+        
+        .feature-card:nth-child(3) .feature-img::before {
+            background: linear-gradient(135deg, #00C896 0%, #00A376 100%);
+        }
+        
+        .feature-card:nth-child(4) .feature-img::before {
+            background: linear-gradient(135deg, #FFB344 0%, #FFA114 100%);
+        }
+        
+        .feature-content {
+            padding: 1.8rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .feature-content h3 {
+            color: var(--text-color);
+            margin-bottom: 0.8rem;
+            font-size: 1.4rem;
+        }
+        
+        .feature-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.8rem;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+        
+        .feature-btn {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .feature-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        body.light-theme .feature-btn {
+            background-color: rgba(108, 99, 255, 0.05);
+        }
+        
+        body.light-theme .feature-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+        }
+        
+        .feature-btn i {
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+        
+        .feature-btn:hover i {
+            transform: translateX(3px);
+        }
+        
+        /* Recent activity section */
+        .activity-section {
+            margin: 3rem 0;
+        }
+        
+        .activity-list {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+        
+        body.light-theme .activity-list {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+        
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .activity-item:nth-child(1) .activity-icon {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        .activity-item:nth-child(2) .activity-icon {
+            background: linear-gradient(135deg, #FF5E5B 0%, #FF414D 100%);
+        }
+        
+        .activity-item:nth-child(3) .activity-icon {
+            background: linear-gradient(135deg, #00C896 0%, #00A376 100%);
+        }
+        
+        .activity-info {
+            flex: 1;
+        }
+        
+        .activity-info h4 {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .activity-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        .activity-time {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        
+        .time-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: rgba(108, 99, 255, 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        body.light-theme .time-badge {
+            background-color: rgba(108, 99, 255, 0.1);
+            color: var(--primary-color);
+        }
+        
+        /* Header & Navigation Updates for Light Theme */
+        body.light-theme header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        body.light-theme nav ul li a {
+            color: #666;
+        }
+        
+        body.light-theme nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        body.light-theme nav ul li a.active {
+            color: white;
+            background-color: var(--primary-color);
+        }
+        
+        @media (max-width: 992px) {
+            .status-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Insights Section Styles */
+        .insights-section {
+            margin: 2.5rem 0;
+        }
+        
+        .insights-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .insights-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+        
+        body.light-theme .insights-card {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .insights-card h3 {
+            color: var(--text-color);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .progress-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background-color: var(--surface-color);
+            border-radius: 6px;
+            position: relative;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+        
+        #focus-progress-bar {
+            position: relative;
+            height: 12px;
+            background-color: var(--surface-color);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
+        }
+        
+        #focus-progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: var(--progress-width, 0%);
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 6px;
+            transition: width 0.8s ease;
+        }
+        
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .insights-stats {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        
+        body.light-theme .insights-stats {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        }
+        
+        .stat-item:nth-child(2) .stat-icon {
+            background: linear-gradient(135deg, #FFB344 0%, #FFA114 100%);
+        }
+        
+        .stat-info h4 {
+            color: var(--text-color);
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-info p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .insights-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .insights-stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .stat-item {
+                flex: 1;
+                min-width: 200px;
+            }
+        }
+        
+
+    </style>
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="logo">
+            <a href="/"><img src="./media/Logo.jpg" alt="DeepSync Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard" class="active">Dashboard</a></li>
+                <li><a href="/Roadmaps/index.html">Roadmaps</a></li>
+                <li><a href="/Time-Management/pomodoro-timer/index.html">Pomodoro</a></li>
+                <li><a href="/todo/Todo-List/src/index.html">Todo List</a></li>
+                <li><a href="/focus-shield.html">Focus Shield</a></li>
+                <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
+            <label class="theme-toggle-switch">
+                <input type="checkbox" id="theme-toggle-checkbox" checked>
+                <span class="theme-toggle-slider"></span>
+            </label>
+            <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <section class="welcome-section">
+            <h1>Welcome back, <span id="username">User</span>!</h1>
+            <p><span id="email"></span></p>
+            <p>Your productivity dashboard is updated. Access all your tools and track your progress.</p>
+        </section>
+        
+        <section class="status-section">
+            <div class="section-header">
+                <h2 class="section-title">Overview</h2>
+            </div>
+            <div class="status-grid">
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="status-info">
+                        <h3 id="completed-tasks">12</h3>
+                        <p>Tasks Completed</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="status-info">
+                        <h3 id="focus-time-display">0</h3>
+                        <p>Focus Time</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="status-info">
+                        <h3 id="streak-display">0</h3>
+                        <p>Streak Days</p>
+                    </div>
+                </div>
+                
+                <div class="status-card">
+                    <div class="status-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="status-info">
+                        <h3 id="productivity-display">0%</h3>
+                        <p>Productivity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- New Section: Pomodoro Insights -->
+        <section class="insights-section">
+            <div class="section-header">
+                <h2 class="section-title">Pomodoro Insights</h2>
+                <a href="/Time-Management/pomodoro-timer/index.html" class="view-all">Go to Timer</a>
+            </div>
+            
+            <div class="insights-container">
+                <div class="insights-card">
+                    <h3>Today's Focus Progress</h3>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="focus-progress-bar"></div>
+                        <div class="progress-labels">
+                            <span>0</span>
+                            <span>30m</span>
+                            <span>1h</span>
+                            <span>1h30m</span>
+                            <span>2h+</span>
+                        </div>
+                    </div>
+                    <div class="progress-info">
+                        <p>Goal: 2 hours of daily focus time</p>
+                        <p>Current: <span id="current-focus-time">0 min</span></p>
+                    </div>
+                </div>
+                
+                <div class="insights-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Completed Today</h4>
+                            <p id="completed-today">0 sessions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h4>Current Streak</h4>
+                            <p id="current-streak">0 days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="features-section">
+            <div class="section-header">
+                <h2 class="section-title">Your Productivity Tools</h2>
+                <a href="#" class="view-all">Customize <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Focus Shield</h3>
+                        <p>Block distracting websites during your focus sessions to maintain peak productivity. Get more done in less time.</p>
+                        <a href="/focus-shield.html" class="feature-btn">Get Focused <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <i class="fas fa-map-signs"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Learning Roadmaps</h3>
+                        <p>Follow structured roadmaps to master new skills and technologies. Track your progress along the way.</p>
+                        <a href="/Roadmaps/index.html" class="feature-btn">Explore Roadmaps <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Todo List</h3>
+                        <p>Organize your tasks with our powerful todo list. Create, track, and complete tasks efficiently.</p>
+                        <a href="/todo/Todo-List/src/index.html" class="feature-btn">Manage Tasks <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-img">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="feature-content">
+                        <h3>Pomodoro Timer</h3>
+                        <p>Work in focused sessions with breaks in between using the Pomodoro technique. Maximize your efficiency.</p>
+                        <a href="/Time-Management/pomodoro-timer/index.html" class="feature-btn">Start Timer <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="activity-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Activity</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            
+            <div class="activity-list">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="activity-info">
+                        <h4>Completed a Pomodoro session</h4>
+                        <p>25 minutes of focused work</p>
+                    </div>
+                    <div class="activity-time">
+                        <span class="time-badge">Just now</span>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-check-square"></i>
+                    </div>
+                    <div class="activity-info">
+                        <h4>Completed task</h4>
+                        <p>Update project documentation</p>
+                    </div>
+                    <div class="activity-time">
+                        <span class="time-badge">2 hours ago</span>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="activity-info">
+                        <h4>Achievement unlocked</h4>
+                        <p>4-day streak maintained</p>
+                    </div>
+                    <div class="activity-time">
+                        <span class="time-badge">Yesterday</span>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <div class="activity-info">
+                        <h4>Roadmap progress</h4>
+                        <p>Completed 2 steps in Web Development path</p>
+                    </div>
+                    <div class="activity-time">
+                        <span class="time-badge">2 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 DeepSync. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Space themed elements that will only show in dark mode -->
+    <div class="space-planet planet-1"></div>
+    <div class="space-planet planet-2"></div>
+    <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+    <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+    <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+
+    <script>
+        // Function to get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        
+        // Check if there's user data in localStorage
+        window.onload = function() {
+            // If username is stored in localStorage (will be set in modified server.js)
+            const storedUsername = localStorage.getItem('username');
+            const storedEmail = localStorage.getItem('email');
+            
+            if (storedUsername) {
+                document.getElementById('username').textContent = storedUsername;
+            } else {
+                // Fallback to URL parameter (for testing)
+                const urlUsername = getUrlParameter('username');
+                if (urlUsername) {
+                    document.getElementById('username').textContent = urlUsername;
+                    localStorage.setItem('username', urlUsername);
+                }
+            }
+            
+            // Display email if available
+            if (storedEmail) {
+                document.getElementById('email').textContent = storedEmail;
+            }
+            
+            // Load and display Pomodoro insights
+            loadPomodoroInsights();
+            
+            // Set up event listener for pomodoro data updates
+            window.addEventListener('pomodoroDataUpdated', function() {
+                // Reload insights when data is updated
+                loadPomodoroInsights();
+            });
+            
+            // Check for updates periodically (every 30 seconds)
+            setInterval(checkForPomodoroUpdates, 30000);
+        };
+        
+        // Function to check if pomodoro data has been updated
+        function checkForPomodoroUpdates() {
+            const lastUpdateTime = localStorage.getItem('pomodoroDataLastUpdated');
+            if (lastUpdateTime && lastUpdateTime !== localStorage.getItem('dashboardLastSyncTime')) {
+                // If there's been an update since our last check, refresh data
+                loadPomodoroInsights();
+                // Store the timestamp of when we last synced
+                localStorage.setItem('dashboardLastSyncTime', lastUpdateTime);
+            }
+        }
+        
+        // Function to load Pomodoro insights from localStorage
+        function loadPomodoroInsights() {
+            // Get Pomodoro data from localStorage
+            const completedPomodoros = parseInt(localStorage.getItem('completedPomodoros')) || 0;
+            const totalFocusTimeToday = parseInt(localStorage.getItem('totalFocusTimeToday')) || 0;
+            const streak = parseInt(localStorage.getItem('streak')) || 0;
+            const dailyGoalMinutes = 120; // 2 hours default goal (same as in pomodoro script)
+            
+            // Calculate productivity percentage
+            const productivityPercentage = Math.min(Math.round((totalFocusTimeToday / dailyGoalMinutes) * 100), 100);
+            
+            // Format focus time display (convert minutes to hours and minutes)
+            let focusTimeDisplay;
+            if (totalFocusTimeToday < 60) {
+                focusTimeDisplay = `${totalFocusTimeToday}m`;
+            } else {
+                const hours = Math.floor(totalFocusTimeToday / 60);
+                const minutes = totalFocusTimeToday % 60;
+                focusTimeDisplay = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`;
+            }
+            
+            // Update dashboard UI
+            document.getElementById('focus-time-display').textContent = focusTimeDisplay;
+            document.getElementById('streak-display').textContent = streak;
+            document.getElementById('productivity-display').textContent = `${productivityPercentage}%`;
+            
+            // Also update completed tasks with completed pomodoros if no other data available
+            const completedTasksElement = document.getElementById('completed-tasks');
+            // Only update if the element still contains the default value
+            if (completedTasksElement.textContent === '12') {
+                completedTasksElement.textContent = completedPomodoros;
+            }
+            
+            // Update recent activity with pomodoro information
+            updateRecentActivity(completedPomodoros, totalFocusTimeToday);
+            
+            // Update the detailed insights section
+            updateDetailedInsights(completedPomodoros, totalFocusTimeToday, streak, productivityPercentage);
+        }
+        
+        // Function to update recent activity section
+        function updateRecentActivity(completedPomodoros, totalFocusTimeToday) {
+            if (completedPomodoros > 0) {
+                // Get the first activity item
+                const firstActivityItem = document.querySelector('.activity-item:first-child');
+                
+                // Only update if it's the default pomodoro activity
+                if (firstActivityItem && 
+                    firstActivityItem.querySelector('h4').textContent === 'Completed a Pomodoro session') {
+                    
+                    // Update with real data
+                    const lastActiveDay = localStorage.getItem('lastActiveDay');
+                    const today = new Date().toLocaleDateString();
+                    
+                    // Determine time badge text
+                    let timeBadgeText = 'Just now';
+                    if (lastActiveDay && lastActiveDay !== today) {
+                        const daysDiff = Math.floor((new Date() - new Date(lastActiveDay)) / (1000 * 60 * 60 * 24));
+                        timeBadgeText = daysDiff === 1 ? 'Yesterday' : `${daysDiff} days ago`;
+                    }
+                    
+                    // Update the content
+                    firstActivityItem.querySelector('h4').textContent = 
+                        `Completed ${completedPomodoros} Pomodoro ${completedPomodoros === 1 ? 'session' : 'sessions'}`;
+                    firstActivityItem.querySelector('p').textContent = 
+                        `Total focus time: ${totalFocusTimeToday} minutes`;
+                    firstActivityItem.querySelector('.time-badge').textContent = timeBadgeText;
+                }
+            }
+        }
+        
+        // Function to update the detailed insights section
+        function updateDetailedInsights(completedPomodoros, totalFocusTimeToday, streak, productivityPercentage) {
+            // Update progress bar
+            const progressBar = document.getElementById('focus-progress-bar');
+            if (progressBar) {
+                // Set the width of the progress bar based on productivity percentage
+                progressBar.style.setProperty('--progress-width', `${productivityPercentage}%`);
+                // Use ::before pseudo-element width
+                progressBar.style.setProperty('--progress-width', `${productivityPercentage}%`);
+                // For browsers that don't support CSS variables in pseudo-elements
+                progressBar.style.background = `linear-gradient(90deg, var(--primary-color), var(--accent-color) ${productivityPercentage}%, var(--surface-color) ${productivityPercentage}%)`;
+            }
+            
+            // Format focus time display for the insights section
+            let detailedFocusTimeDisplay;
+            if (totalFocusTimeToday < 60) {
+                detailedFocusTimeDisplay = `${totalFocusTimeToday} minutes`;
+            } else {
+                const hours = Math.floor(totalFocusTimeToday / 60);
+                const minutes = totalFocusTimeToday % 60;
+                detailedFocusTimeDisplay = minutes > 0 ? 
+                    `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes > 1 ? 's' : ''}` : 
+                    `${hours} hour${hours > 1 ? 's' : ''}`;
+            }
+            
+            // Update insights text
+            document.getElementById('current-focus-time').textContent = detailedFocusTimeDisplay;
+            document.getElementById('completed-today').textContent = `${completedPomodoros} session${completedPomodoros !== 1 ? 's' : ''}`;
+            document.getElementById('current-streak').textContent = `${streak} day${streak !== 1 ? 's' : ''}`;
+        }
+    </script>
+    <script src="theme.js"></script>
+    <script src="chatbot.js"></script>
+</body>
+</html> 

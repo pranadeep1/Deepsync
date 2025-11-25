@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/b04ee4730a.js" crossorigin="anonymous"></script>
+    <style>
+        /* Login specific styles */
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .form-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 450px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .form-title {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        }
+        
+        .form-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            background-color: rgba(30, 30, 40, 1);
+        }
+        
+        .form-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        
+        .form-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: all 0.5s;
+        }
+        
+        .form-button:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.4);
+        }
+        
+        .form-button:hover:before {
+            left: 100%;
+        }
+        
+        .form-link {
+            display: block;
+            margin-top: 1.5rem;
+            color: var(--primary-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        
+        .form-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        
+        .form-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        
+        .form-divider::before,
+        .form-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .form-divider span {
+            padding: 0 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background-color: var(--surface-color);
+            color: var(--text-secondary);
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .social-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-button.google:hover {
+            color: #DB4437;
+            border-color: #DB4437;
+        }
+        
+        .social-button.facebook:hover {
+            color: #4267B2;
+            border-color: #4267B2;
+        }
+        
+        .social-button.twitter:hover {
+            color: #1DA1F2;
+            border-color: #1DA1F2;
+        }
+        
+        /* Password visibility toggle */
+        .password-field {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .toggle-password:hover {
+            color: var(--text-color);
+        }
+
+        /* Light theme adjustments */
+        body.light-theme .form-title {
+            color: var(--text-color);
+            text-shadow: none;
+        }
+        
+        body.light-theme .input-field:focus {
+            background-color: var(--surface-color);
+        }
+    </style>
+</head>
+<body class="dark-theme">
+    <header>
+        <div class="logo">
+            <a href="/"><img src="./media/Logo.jpg" alt="DeepSync Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="/register">Register</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <span class="theme-toggle-icon"><i class="fas fa-sun"></i></span>
+            <label class="theme-toggle-switch">
+                <input type="checkbox" id="theme-toggle-checkbox" checked>
+                <span class="theme-toggle-slider"></span>
+            </label>
+            <span class="theme-toggle-icon"><i class="fas fa-moon"></i></span>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h1 class="form-title">Welcome Back</h1>
+            <p class="form-subtitle">Log in to continue your productivity journey</p>
+            
+            <form action="/login" method="post">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="input-field" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <div class="password-field">
+                        <input type="password" id="password" name="password" class="input-field" placeholder="Enter your password" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="far fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <button type="submit" class="form-button">Log In</button>
+                
+                <a href="#" class="form-link">Forgot password?</a>
+            </form>
+            
+            <div class="form-divider">
+                <span>OR</span>
+            </div>
+            
+            <div class="social-login">
+                <button class="social-button google" onclick="socialLogin('google')">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="social-button facebook" onclick="socialLogin('facebook')">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+                <button class="social-button twitter" onclick="socialLogin('twitter')">
+                    <i class="fab fa-twitter"></i>
+                </button>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.95rem; color: var(--text-secondary);">
+                Don't have an account? <a href="/register" class="form-link" style="display: inline; margin: 0;">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 DeepSync. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Space themed elements that will only show in dark mode -->
+    <div class="space-planet planet-1"></div>
+    <div class="space-planet planet-2"></div>
+    <div class="floating-particle" style="top: 30%; left: 20%;"><i class="fas fa-star" style="color: #f39c12; font-size: 12px;"></i></div>
+    <div class="floating-particle" style="top: 60%; left: 80%;"><i class="fas fa-star" style="color: #2ecc71; font-size: 14px;"></i></div>
+    <div class="floating-particle" style="top: 20%; left: 75%;"><i class="fas fa-star" style="color: #e74c3c; font-size: 10px;"></i></div>
+
+    <script src="theme.js"></script>
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.querySelector('.toggle-password i');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        function socialLogin(provider) {
+            console.log(`Login with ${provider}`);
+            // In a real app, this would redirect to the OAuth flow
+            alert(`Login with ${provider} would be implemented in the final version.`);
+        }
+        
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                // For demo purposes, we'll just redirect to dashboard
+                window.location.href = '/dashboard';
+            } else {
+                alert('Please enter both email and password');
+            }
+        });
+    </script>
+</body>
+</html> 

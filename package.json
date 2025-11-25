@@ -1,0 +1,33 @@
+{
+  "name": "deepsync",
+  "version": "1.0.0",
+  "description": "DeepSync - A productivity platform to help users achieve deep focus",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "productivity",
+    "focus",
+    "pomodoro",
+    "task-management"
+  ],
+  "author": "pranadeep1",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "deepsync": "file:",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.6.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

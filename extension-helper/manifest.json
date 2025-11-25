@@ -1,0 +1,26 @@
+{
+  "name": "Focus Shield Helper",
+  "version": "1.0",
+  "description": "Helps Focus Shield integrate with other blocking extensions",
+  "manifest_version": 3,
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "externally_connectable": {
+    "matches": ["*://localhost/*", "*://*.deepsync.app/*"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ]
+} 
